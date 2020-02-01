@@ -191,6 +191,7 @@ const float _defaultPlaybackRate = 1.0;
                 @"release":
                     ^{
                         NSLog(@"release");
+                        [self disableNotification];
                         [self stop:playerId];
                     },
                 @"seek":
@@ -644,6 +645,17 @@ const float _defaultPlaybackRate = 1.0;
     [ self seek:playerId time:CMTimeMake(0, 1) ];
     [playerInfo setObject:@false forKey:@"isPlaying"];
   }
+}
+
+-(void) disableNotification{
+    NSLog(@"disableNotification with release");
+    [remoteCommandCenter.skipBackwardCommand setEnabled:NO];
+    [remoteCommandCenter.skipForwardCommand setEnabled:NO];
+    [remoteCommandCenter.pauseCommand setEnabled:NO];
+    [remoteCommandCenter.playCommand setEnabled:NO];
+    [remoteCommandCenter.togglePlayPauseCommand setEnabled:NO];
+    NSLog(@"endReceivingRemoteControlEvents");
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
 }
 
 -(void) seek: (NSString *) playerId
